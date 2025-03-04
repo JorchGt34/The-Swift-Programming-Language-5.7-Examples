@@ -164,3 +164,134 @@ switch vegetable {
     default:
         print("Everything tastes good in soup")
 }
+
+//for-in in a dictionary
+let interestingNumbers: [String : [Int]] = [
+    "Prime" : [2, 3, 5, 7, 11, 13],
+    "Fibonacci" : [1, 1, 2, 3, 5, 8],
+    "Square" : [1, 4, 9, 16, 25]
+]
+var largest: Int = 0
+for (name, numbers) in interestingNumbers { // The _ refers to each String value in the dictionary and ignores the String value to only consider the Integer value
+    print(name + " is being checked")
+    for number in numbers {
+        if number > largest {
+            largest = number
+        }
+    }
+}
+print(largest)
+
+//While conditions
+//If a while condition is at the end of the code, the code wwill run at least once
+
+var n: Int = 2
+while n < 2 { // or n < 100 to have the same result on both examples
+    n *= 2
+}
+print(n)
+
+var m: Int = 2
+repeat {
+    m *= 2
+} while m < 2 // or n < 100 to have the same result on both examples
+print(m)
+
+//Range of index with for-in
+var total: Int = 0
+for i: Int in 0 ..< 4 { //This example does not include the last value, and 0 ... 4 includes the last value
+    total += i
+}
+print(total)
+
+//Functions and Closures
+//func return a value and that type of value is declares with "->"
+func greet(person: String, day: String) -> String {
+    return "Hello \(person), today is \(day)."
+}
+print(greet(person: "Jorge", day: "May 4th"))
+
+//Functions need the name of the parameter as default, is possible to write "_" before declare the parameter name to ignore it, but the second parameter needs "on" to indicate which parameters will be used when you call the function
+func newGreet(_ person: String, on day: String) -> String {
+    return "Hello \(person), today is \(day)."
+}
+print(newGreet("John", on: "Wednesday"))
+
+//Tuple to make a compound value
+func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int){
+    var min: Int = scores[0]
+    var max: Int = scores[0]
+    var sum: Int = 0
+
+    for score: Int in scores {
+        if score > max {
+            max = score
+        } else if score < min {
+            min = score
+        }
+        sum += score
+    }
+    return (min, max, sum)
+}
+
+let statistics = calculateStatistics(scores: [5, 3, 100, 3, 9])
+print(statistics.min); print(statistics.0)
+print(statistics.max); print(statistics.1)
+print(statistics.sum); print(statistics.2)
+
+//Functions can be nested, this means the functions declared in another function has access to variables that are outer the function
+
+func returnFifteen() -> Int {
+    var y: Int = 10
+    func add() -> Void {
+        y += 5
+    }
+    add()
+    return y
+}
+
+let num15: Int = returnFifteen()
+print(num15)
+
+//Functions are first-class types that can return another function as its value
+func makeIncrementer() -> ((Int) -> Int) {
+    func addOne(number: Int) -> Int {
+        return 1 + number
+    }
+    return addOne
+}
+var increment: ((Int) -> Int) = makeIncrementer()
+print(increment(7))
+
+//A function can take another function as one of its arguments
+func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
+    for item: Int in list {
+        if condition(item) {
+            return true
+        }
+    }
+    return false
+}
+
+func lessThanTen(number: Int) -> Bool {
+    return number < 10
+}
+
+var numbers: [Int] = [20, 19, 7, 12]
+print(hasAnyMatches(list: numbers, condition: lessThanTen))
+
+//The code in a closure has access to things available in the scope where the closure was created, for this reason you can create a function only with "{}" by surrounding the code with it
+
+print(numbers.map({(number: Int) -> Int in 
+    if number % 2 != 0{
+        return number
+    } else {
+        return 0
+    }
+}))
+
+print(numbers.map({number in 3 * number}))
+let sortedNumbers = numbers.sorted { $0 < $1}
+print(sortedNumbers)
+
+//Objects and Classes
