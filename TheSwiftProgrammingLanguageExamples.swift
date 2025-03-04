@@ -38,7 +38,7 @@ Es posible que este material esté protegido por copyright.
 
 */
 
-//A Swift Tour  Chapter 1 => pag 4
+//A Swift Tour  Chapter 1 => pag 4 - 
 
 print("Hello, world!")
 // Prints "Hello, world!"
@@ -77,7 +77,7 @@ print(appleSummary)
 print(fruitSummary)
 
 //Experiment 
-//Use  \() to include a floating-point calculation in a string and to include someone's name in a greeting 
+//Use  \() to include a floating-point calculation in a string and to include someone's namnewGreeting 
 
 let name: String = "Jorge"
 let age: Float = 100.0 - 76.7
@@ -91,3 +91,76 @@ I said "I have \(apples) apples."
 And then I said "I have \(apples + oranges) pieces of fruit."
 """
 print(quotation)
+
+//Arrays and Dictionaries are made with brackets [] and their index can be accessed by using brackets
+
+var fruits: [String] = ["strawberries", "limes", "tangerlines"]
+fruits[1] = "grapes"
+
+print(fruits)
+
+var occupations: [String : String] = [
+    "Malcom" : "Captain",
+    "Kaylee" : "Mechanic"
+]
+occupations["Jayne"] = "Public Relatios"
+print(occupations)
+
+fruits.append("blueberries")
+print(fruits)
+
+let emptyArray: [String] = []
+let emptyDictionary: [String:Float] = [:]
+fruits = []
+occupations = [:]
+print(fruits,occupations)
+
+//Control Flow for if, for - in
+
+let individualScores: [Int] = [75, 43, 103, 87, 12]
+var teamScore = 0
+for score: Int in individualScores {
+    if score > 50 {
+        teamScore += 3
+    } else {
+        teamScore += 1
+    }
+}
+print(teamScore)
+
+//Optional values
+var optionalString: String? = "Hello"
+print(optionalString == nil)
+//Prints "false"
+
+var optionalName: String? = nil // or = "John Appleseed"
+var newGreeting: String = "Hello"
+if let name: String = optionalName {
+    newGreeting = "Hello, \(name)"
+} else {
+    newGreeting = "Hello, no name was entered"
+}
+print(newGreeting)
+
+//Default value
+let nickname: String? = nil // or = "Jorge Montoya"
+let fullName: String = "John Appleseed"
+let informalGreeting: String = "Hi \(nickname ?? fullName)"
+print(informalGreeting)
+
+if let nickname: String {
+    print("Hey, \(nickname)")
+}
+
+//Switch sentence
+let vegetable: String = "red pepper"
+switch vegetable {
+    case "celery":
+        print("Add some raisins and make ants on a log.")
+    case "cucumber", "watercress":
+        print("That would make a good tea sandwich.")
+    case let veggie where veggie.hasSuffix("pepper"): //let 'let name' is a copy of the let that is used to use the switch
+        print("Is it a spicy \(veggie)?")
+    default:
+        print("Everything tastes good in soup")
+}
