@@ -295,3 +295,170 @@ let sortedNumbers = numbers.sorted { $0 < $1}
 print(sortedNumbers)
 
 //Objects and Classes
+//Clases have variables inside of them that can be used in methods(functions) inside
+class Shape {
+    var numberOfSides: Int = 0
+    func simpleDescription() -> String {
+        return "A shape with \(numberOfSides) sides."
+    }
+
+    let figure: String = "Square"
+    func typeOfFigure(figure: String) -> String {
+        return "Your figure is a \(figure) with \(numberOfSides) sides."
+    }
+}
+
+var shape: Shape = Shape()
+shape.numberOfSides = 4
+var shapeDescription: String = shape.simpleDescription()
+print(shapeDescription, shape.typeOfFigure(figure: shape.figure))
+
+//It is important to initialize a class when an instance is created
+class NamedShape {
+    var numberOfSides: Int = 0
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+
+    func simpleDescription() -> String {
+        return "A shape with \(numberOfSides) sides."
+    }
+}
+
+var namedShape: NamedShape = NamedShape(name: "square")
+print(namedShape.name)
+
+//Super classes and override a class
+
+class Square: NamedShape {
+    var sideLength: Double
+
+    init(sideLenght: Double, name: String){
+        self.sideLength = sideLenght
+        super.init(name: name) //This sends a request to the superclass to initialize the variable "name"
+        numberOfSides = 4
+    }
+
+    func area() -> Double {
+        return sideLength * sideLength
+    }
+
+    override func simpleDescription() -> String {
+        return "A square with sides of lenght \(sideLength)."
+    }
+}
+let test: Square = Square(sideLenght: 5.2, name: "my test square")
+print(test.area(), test.simpleDescription())
+
+class Circle: NamedShape {
+    var radius: Double
+    let pi: Double = 3.1416
+    init(radius: Double, name: String){
+        self.radius = radius
+        super.init(name: name)
+    }
+
+    func area() -> Double {
+        return pi * (radius * radius)
+    }
+
+    override func simpleDescription() -> String {
+        return "A circle named \(name) with a radius of \(area())."
+    }
+}
+
+let circle: Circle = Circle(radius: 4.0, name: "'The Blue Circle'")
+print(circle.simpleDescription())
+
+//The properties of a class can have a "get" and a "set"
+class EquilateralTriangle: NamedShape {
+    var sideLength: Double = 0.0
+
+    init(sideLength: Double, name: String){
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSides = 3
+    }
+
+    var perimeter: Double {
+        get {
+            return 3.0 * sideLength
+        }
+        set {
+            sideLength = newValue / 3.0
+        }
+    }
+
+    override func simpleDescription() -> String {
+        return "An equilateral triangle with sides of length \(sideLength)."
+    }
+}
+
+var triangle:EquilateralTriangle = EquilateralTriangle(sideLength: 3.1, name: "Triangle")
+print(triangle.perimeter)
+triangle.perimeter = 9.9
+print(triangle.sideLength)
+
+//Classes' properties can have "willset" to do an operation once a value is received
+class TriangleAndSquare {
+    var triangle: EquilateralTriangle {
+        willSet {
+            square.sideLength = newValue.sideLength
+        }
+    }
+    var square: Square {
+        willSet {
+            triangle.sideLength = newValue.sideLength
+        }
+    }
+    init(size: Double, name: String) {
+        square = Square(sideLenght: size, name: name)
+        triangle = EquilateralTriangle(sideLength: size, name: name)
+    }
+}
+var triangleAndSquare: TriangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
+print(triangleAndSquare.square.sideLength)
+print(triangleAndSquare.triangle.sideLength)
+triangleAndSquare.square = Square(sideLenght: 50, name: "larger square")
+print(triangleAndSquare.triangle.sideLength)
+print(triangleAndSquare.triangle.name)
+print(triangleAndSquare.square.name)
+
+//Optional values
+//With optional values a "?" can be used to decide if everything after "?" will be ignored or will be part of the variable
+let optionalSquare: Square? = Square(sideLenght: 2.5, name: "optional square")
+let sideLength: Double? = optionalSquare?.sideLength
+if sideLength != nil {
+    print("No nil")
+}
+
+//Enumerations and Structures
+//enum values can have methods in them using Swift
+enum Rank: Int {
+    case ace = 1
+    case two, three, four, five, six, seven, eight, nine, ten
+    case jack, queen, king
+
+    func simpleDescription() -> String {
+        switch self {
+            case .ace:
+                return "ace"
+            case .jack:
+                return "jack"
+            case .queen:
+                return "queen"
+            case .king:
+                return "king"
+            default:
+                return String(self.rawValue)
+        }
+    }
+}
+
+let ace: Rank = Rank.ace
+let aceRawValue: Int = ace.rawValue
+print(ace)
+print(aceRawValue)
+
